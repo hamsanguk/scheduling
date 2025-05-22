@@ -38,17 +38,45 @@ export class EthersService {
     return formatEther(data);
   }
 
-  // 위 코드는 지우지 마세요.
-
+  /**
+   * account1의 잔액을 조회하여 반환합니다 (ETH 단위 문자열).
+   */
   async getBalance() {
-    // Todo: account1의 잔액(balance)을 리턴합니다.
+    return await this.provider.getBalance(this.account1.address);//contract token이 아니라 계정의 코인
   }
 
+  /**
+   * account1이 account2에게 1 ETH를 전송합니다.
+   * @param nonce 트랜잭션 Nonce (보통 미리 조회해서 넣음)
+   */
   async send1ETH(nonce: number) {
-    // Todo: account1이 account2에게 1ETH를 전송해야 합니다.
+    // const tx = await this.account1.sendTransaction({
+    //   to: this.account2.address,
+    //   value: parseEther('1'),
+    //   nonce,
+    //   gasLimit: 21000,
+    // });
+    // return tx.wait(); 
+    await this.account1.sendTransaction({
+      to:this.account2.address,
+      value:this.parseEther('1'),
+      nonce:nonce
+    });
   }
 
+  /**
+   * account2가 account1에게 30 ETH를 전송합니다.
+   */
   async send30ETH() {
-    // Todo: account2가 account1에게 30ETH를 전송해야 합니다.
+    // const tx = await this.account2.sendTransaction({
+    //   to: this.account1.address,
+    //   value: parseEther('30'),
+    //   gasLimit: 21000,
+    // });
+    // return tx.wait();
+    await this.account2.sendTransaction({
+      to:this.account1.address,
+      value:this.parseEther('30'),
+    });
   }
 }
